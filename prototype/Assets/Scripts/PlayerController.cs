@@ -10,11 +10,13 @@ public class PlayerController : MonoBehaviour
     Rigidbody _rb;
     Vector3 gravity;
     bool grounded = true;
+    GameObject focalPoint;
 
     // Start is called before the first frame update
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        focalPoint = GameObject.Find("Origin");
         gravity = Physics.gravity;
     }
 
@@ -22,25 +24,18 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         Vector3 finalVelocity = _rb.velocity;
-        float hValue = Input.GetAxis("Horizontal");
         float vValue = Input.GetAxis("Vertical");
 
         if (grounded)
         {
+            finalVelocity = (vValue * speed * focalPoint.transform.forward) + gravity;
             if (Input.GetKey(KeyCode.Space))
             {
                 _rb.AddForce(jumpForce * Vector3.up, ForceMode.Impulse);
-                finalVelocity = _rb.velocity;
+                finalVelocity.y = _rb.velocity.y;
                 grounded = false;
             }
-            if (hValue != 0 || vValue != 0)
-            {
-                float hVelocity = hValue * speed;
-                float vVelocity = vValue * speed;
 
-                finalVelocity.x = hVelocity;
-                finalVelocity.z = vVelocity;
-            }
         }
         if (!insideBounds())
         {
