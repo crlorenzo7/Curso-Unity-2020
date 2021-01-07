@@ -25,6 +25,11 @@ public class Launch : MonoBehaviour
         //transform.Rotate(rotation * Time.deltaTime);
     }
 
+    private void OnMouseDown()
+    {
+        Destroy(gameObject);
+    }
+
     ///<summary>Aplica al gameObject una fuerza y torque de lanzamiento</summary>
     void LaunchTarget()
     {
@@ -34,4 +39,6 @@ public class Launch : MonoBehaviour
         _rigidbody.AddForce(forceValue * transform.up, ForceMode.Impulse);
         _rigidbody.AddTorque(torqueValue * Vector3.one, ForceMode.Impulse);
     }
+
+
 }
