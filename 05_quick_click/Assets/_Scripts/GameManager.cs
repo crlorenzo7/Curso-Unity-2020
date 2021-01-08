@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    private int score = 0;
+
     private float startDelay = 2f;
     public float spawnInterval = 2f;
     public float xRange = 5f;
@@ -14,9 +17,14 @@ public class GameManager : MonoBehaviour
     bool gameOver = false;
     Vector3 spawnPosition;
 
+    GameObject scoreText;
+
+    public int Score { get => score; set => score = value; }
+
     // Start is called before the first frame update
     void Start()
     {
+        scoreText = GameObject.Find("ScoreText");
         spawnPosition = transform.position;
         StartCoroutine(Spawn());
     }
@@ -24,7 +32,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        scoreText.GetComponent<TMP_Text>().SetText("Puntuacion: " + Score);
     }
 
     IEnumerator Spawn()

@@ -11,11 +11,16 @@ public class Launch : MonoBehaviour
     public float minTorque = -10f;
     public float rotationSpeed = 30f;
 
+    public int scoreValue = 1;
+
     public GameObject destructionEffect;
+
+    private GameManager _gameManager;
     // Start is called before the first frame update
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
 
         LaunchTarget();
     }
@@ -29,6 +34,7 @@ public class Launch : MonoBehaviour
 
     private void OnMouseDown()
     {
+        _gameManager.Score += scoreValue;
         Instantiate(destructionEffect, transform.position, destructionEffect.transform.rotation);
         Destroy(gameObject);
     }
