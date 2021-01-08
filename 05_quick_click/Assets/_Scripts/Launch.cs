@@ -10,6 +10,8 @@ public class Launch : MonoBehaviour
     public float maxTorque = 10f;
     public float minTorque = -10f;
     public float rotationSpeed = 30f;
+
+    public GameObject destructionEffect;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +29,7 @@ public class Launch : MonoBehaviour
 
     private void OnMouseDown()
     {
+        Instantiate(destructionEffect, transform.position, destructionEffect.transform.rotation);
         Destroy(gameObject);
     }
 

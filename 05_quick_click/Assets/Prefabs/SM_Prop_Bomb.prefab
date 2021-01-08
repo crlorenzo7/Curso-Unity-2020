@@ -122,6 +122,8 @@ MonoBehaviour:
   maxTorque: 5
   minTorque: -5
   rotationSpeed: 90
+  destructionEffect: {fileID: 4318248526107545549, guid: f5ec5c737f862014bb2144e9d4cf48af,
+    type: 3}
 --- !u!54 &1290602858448236662
 Rigidbody:
   m_ObjectHideFlags: 0
