@@ -1,11 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+
+    const int MIN_SCORE = 0;
+    const int MAX_SCORE = 99999;
     private int score = 0;
+    private float gameTime = 0f;
+    bool gameOver = false;
 
     private float startDelay = 2f;
     public float spawnInterval = 2f;
@@ -14,17 +18,16 @@ public class GameManager : MonoBehaviour
 
     public List<GameObject> prefabs = new List<GameObject>();
 
-    bool gameOver = false;
     Vector3 spawnPosition;
 
-    GameObject scoreText;
-
-    public int Score { get => score; set => score = value; }
+    public int Score { get => score; set => score = Mathf.Clamp(value, MIN_SCORE, MAX_SCORE); }
+    public float GameTime { get => gameTime; set => gameTime = value; }
+    public bool GameOver { get => gameOver; set => gameOver = value; }
 
     // Start is called before the first frame update
     void Start()
     {
-        scoreText = GameObject.Find("ScoreText");
+
         spawnPosition = transform.position;
         StartCoroutine(Spawn());
     }
@@ -32,7 +35,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        scoreText.GetComponent<TMP_Text>().SetText("Puntuacion: " + Score);
+        GameTime += Time.deltaTime;
     }
 
     IEnumerator Spawn()
@@ -40,7 +43,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(startDelay);
 
         int zPosition = 0;
-        while (!gameOver)
+        while (!GameOver)
         {
             float xPosition = Random.Range(-xRange, xRange);
             Vector3 position = xPosition * Vector3.right;
@@ -55,6 +58,17 @@ public class GameManager : MonoBehaviour
             Instantiate(prefabs[prefabIndex], position, rotation);
             yield return new WaitForSeconds(spawnInterval);
         }
+
+    }
+
+    public void UpdateScore(int points)
+    {
+        Score += points;
+    }
+
+    public void FinishGame()
+    {
+        GameOver = true;
 
     }
 }

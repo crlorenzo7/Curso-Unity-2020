@@ -4,18 +4,22 @@ using UnityEngine;
 
 public class Launch : MonoBehaviour
 {
+    [System.Serializable]
+    public enum TargetType { GOOD, BAD, DEATH };
+
     Rigidbody _rigidbody;
+    private GameManager _gameManager;
+
     public float forceMaxValue = 14f;
     public float forceMinValue = 10f;
     public float maxTorque = 10f;
     public float minTorque = -10f;
-    public float rotationSpeed = 30f;
 
     public int scoreValue = 1;
 
+    public TargetType targetType;
     public GameObject destructionEffect;
 
-    private GameManager _gameManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,15 +32,23 @@ public class Launch : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Vector3 rotation = rotationSpeed * new Vector3(1f, 1f, 0f);
-        //transform.Rotate(rotation * Time.deltaTime);
+
     }
 
     private void OnMouseDown()
     {
-        _gameManager.Score += scoreValue;
-        Instantiate(destructionEffect, transform.position, destructionEffect.transform.rotation);
-        Destroy(gameObject);
+        if (!_gameManager.GameOver)
+        {
+            switch (targetType)
+            {
+                case TargetType.GOOD:
+                case TargetType.BAD: _gameManager.UpdateScore(scoreValue); break;
+                case TargetType.DEATH: _gameManager.FinishGame(); break;
+            }
+
+            Instantiate(destructionEffect, transform.position, destructionEffect.transform.rotation);
+            Destroy(gameObject);
+        }
     }
 
     ///<summary>Aplica al gameObject una fuerza y torque de lanzamiento</summary>
