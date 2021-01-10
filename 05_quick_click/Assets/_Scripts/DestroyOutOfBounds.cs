@@ -21,7 +21,7 @@ public class DestroyOutOfBounds : MonoBehaviour
         {
             if (_launchScript.TypeOfTarget == TargetType.GOOD)
             {
-                _gameManager.UpdateScore(killGoodPenalty);
+                _gameManager.UpdateNumberOfLifes(-1);
             }
             Destroy(gameObject);
         }

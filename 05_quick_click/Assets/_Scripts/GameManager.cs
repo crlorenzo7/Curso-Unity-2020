@@ -4,26 +4,24 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [System.Serializable]
-public enum Difficulty { EASY, MEDIUM, HARD }
-
-[System.Serializable]
 public enum GameState { IDLE, PLAYING, PAUSE, GAMEOVER }
 
 public class GameManager : MonoBehaviour
 {
 
-    Difficulty difficulty = Difficulty.MEDIUM;
+    GameMode gameMode = GameMode.EASY();
     GameState gameState = GameState.IDLE;
-
     CanvasManager _canvasManager;
+
+    int numberOfLifes = 3;
+
     const int MIN_SCORE = 0;
     const int MAX_SCORE = 99999;
+
     private int score = 0;
     private float gameTime = 0f;
-    bool gameOver = false;
 
     private float startDelay = 2f;
-    public float spawnInterval = 2f;
     public float xRange = 5f;
     public float zRotationMaxAngle = 30f;
 
@@ -33,7 +31,6 @@ public class GameManager : MonoBehaviour
 
     public int Score { get => score; set => score = Mathf.Clamp(value, MIN_SCORE, MAX_SCORE); }
     public float GameTime { get => gameTime; set => gameTime = value; }
-    public bool GameOver { get => gameOver; set => gameOver = value; }
     public GameState GameState { get => gameState; set => gameState = value; }
 
     // Start is called before the first frame update
@@ -57,21 +54,22 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(startDelay);
 
-        int zPosition = 0;
         while (GameState == GameState.PLAYING)
         {
-            float xPosition = Random.Range(-xRange, xRange);
-            Vector3 position = xPosition * Vector3.right;
-            position.z = -((zPosition % 8) + 1);
-            zPosition += 2;
+            int numberOfObjectsToSpawn = Random.Range(gameMode.MinObjectsPerWave, gameMode.MaxObjetcsPerWave);
+            for (int i = 0; i < numberOfObjectsToSpawn; i++)
+            {
+                float xPosition = Random.Range(-xRange, xRange);
+                Vector3 position = xPosition * Vector3.right;
 
-            float zRotation = Random.Range(0f, zRotationMaxAngle) * (xPosition / Mathf.Abs(xPosition));
-            Quaternion rotation = Quaternion.AngleAxis(zRotation, Vector3.forward);
+                float zRotation = Random.Range(0f, zRotationMaxAngle) * (xPosition / Mathf.Abs(xPosition));
+                Quaternion rotation = Quaternion.AngleAxis(zRotation, Vector3.forward);
 
-            int prefabIndex = Random.Range(0, prefabs.Count);
+                int prefabIndex = Random.Range(0, prefabs.Count);
 
-            Instantiate(prefabs[prefabIndex], position, rotation);
-            yield return new WaitForSeconds(spawnInterval);
+                Instantiate(prefabs[prefabIndex], position, rotation);
+            }
+            yield return new WaitForSeconds(gameMode.SpawnInterval);
         }
 
     }
@@ -92,10 +90,10 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    public void SetDifficulty(int difficulty)
+    public void SetGameMode(int index)
     {
-        this.difficulty = (Difficulty)difficulty;
-        Debug.Log(this.difficulty);
+        this.gameMode = GameMode.GetByIndex(index);
+        this.numberOfLifes = this.gameMode.NumberOfLifes;
     }
 
     public void StartGame()
@@ -104,5 +102,14 @@ public class GameManager : MonoBehaviour
         _canvasManager.HideMainMenuScreen();
         _canvasManager.ShowPlayingPanel();
         StartCoroutine(Spawn());
+    }
+
+    public void UpdateNumberOfLifes(int number)
+    {
+        this.numberOfLifes += number;
+        if (this.numberOfLifes == 0)
+        {
+            FinishGame();
+        }
     }
 }
