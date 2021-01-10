@@ -12,33 +12,41 @@ public class CanvasManager : MonoBehaviour
     TMP_Text scoreText;
     TMP_Text timeText;
     TextMeshProUGUI gameOverText;
-    GameObject retryButton; 
+    GameObject gameOverMenu;
+    GameObject mainMenu;
+    GameObject playingPanel;
     // Start is called before the first frame update
     void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
         scoreText = GameObject.Find("ScoreText").GetComponent<TMP_Text>();
         timeText = GameObject.Find("TimeText").GetComponent<TMP_Text>();
-        retryButton = GameObject.Find("RetryButton");
-        gameOverText = GameObject.Find("GameOverText").GetComponent<TextMeshProUGUI>();
-        gameOverText.enabled = false;
-        retryButton.SetActive(false);
+        gameOverMenu = GameObject.Find("GameOverMenu");
+        mainMenu = GameObject.Find("MainMenu");
+        playingPanel = GameObject.Find("PlayingPanel");
+        playingPanel.SetActive(false);
+        gameOverMenu.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void UpdatePlayingCanvas()
     {
+        scoreText.GetComponent<TMP_Text>().SetText("Puntuacion: " + _gameManager.Score);
+        timeText.GetComponent<TMP_Text>().SetText(FormatTime(_gameManager.GameTime));
+    }
 
-        if (_gameManager.GameOver)
-        {
-            gameOverText.enabled = true;
-            retryButton.SetActive(true);
-        }
-        else
-        {
-            scoreText.GetComponent<TMP_Text>().SetText("Puntuacion: " + _gameManager.Score);
-            timeText.GetComponent<TMP_Text>().SetText(FormatTime(_gameManager.GameTime));
-        }
+    public void ShowGameOverScreen()
+    {
+        gameOverMenu.SetActive(true);
+    }
+
+    public void ShowPlayingPanel()
+    {
+        playingPanel.SetActive(true);
+    }
+
+    public void HideMainMenuScreen()
+    {
+        mainMenu.SetActive(false);
     }
 
     private string FormatTime(float time)

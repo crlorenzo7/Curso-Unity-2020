@@ -41,7 +41,7 @@ public class Launch : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (!_gameManager.GameOver)
+        if (_gameManager.GameState != GameState.GAMEOVER)
         {
             switch (TypeOfTarget)
             {
