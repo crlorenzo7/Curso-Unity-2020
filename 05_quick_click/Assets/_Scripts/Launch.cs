@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public enum TargetType { GOOD, BAD, DEATH };
+
 public class Launch : MonoBehaviour
 {
-    [System.Serializable]
-    public enum TargetType { GOOD, BAD, DEATH };
 
     Rigidbody _rigidbody;
     private GameManager _gameManager;
@@ -17,8 +18,11 @@ public class Launch : MonoBehaviour
 
     public int scoreValue = 1;
 
-    public TargetType targetType;
-    public GameObject destructionEffect;
+    [SerializeField]
+    private TargetType typeOfTarget;
+    public ParticleSystem destructionEffect;
+
+    public TargetType TypeOfTarget { get => typeOfTarget; set => typeOfTarget = value; }
 
     // Start is called before the first frame update
     void Start()
@@ -39,7 +43,7 @@ public class Launch : MonoBehaviour
     {
         if (!_gameManager.GameOver)
         {
-            switch (targetType)
+            switch (TypeOfTarget)
             {
                 case TargetType.GOOD:
                 case TargetType.BAD: _gameManager.UpdateScore(scoreValue); break;

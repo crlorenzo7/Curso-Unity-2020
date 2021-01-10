@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class CanvasManager : MonoBehaviour
@@ -10,15 +11,18 @@ public class CanvasManager : MonoBehaviour
 
     TMP_Text scoreText;
     TMP_Text timeText;
-    TMP_Text gameOverText;
+    TextMeshProUGUI gameOverText;
+    GameObject retryButton; 
     // Start is called before the first frame update
     void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
         scoreText = GameObject.Find("ScoreText").GetComponent<TMP_Text>();
         timeText = GameObject.Find("TimeText").GetComponent<TMP_Text>();
-        gameOverText = GameObject.Find("GameOverText").GetComponent<TMP_Text>();
+        retryButton = GameObject.Find("RetryButton");
+        gameOverText = GameObject.Find("GameOverText").GetComponent<TextMeshProUGUI>();
         gameOverText.enabled = false;
+        retryButton.SetActive(false);
     }
 
     // Update is called once per frame
@@ -28,6 +32,7 @@ public class CanvasManager : MonoBehaviour
         if (_gameManager.GameOver)
         {
             gameOverText.enabled = true;
+            retryButton.SetActive(true);
         }
         else
         {

@@ -102,8 +102,8 @@ MonoBehaviour:
   maxTorque: 10
   minTorque: -10
   scoreValue: 1
-  targetType: 2
-  destructionEffect: {fileID: 4318248526107545549, guid: f5ec5c737f862014bb2144e9d4cf48af,
+  typeOfTarget: 2
+  destructionEffect: {fileID: 5813699647797232021, guid: 7f01e60713d523740a5b6722cae108b4,
     type: 3}
 --- !u!54 &-9039756982584435988
 Rigidbody:
@@ -133,6 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7816429827bec4145a15974f976ccfae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  killGoodPenalty: -1
 --- !u!65 &5584891544380166819
 BoxCollider:
   m_ObjectHideFlags: 0
