@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     public float rotationSpeed = 20f;
     Rigidbody _rigidbody;
     Animator _animator;
+    AudioSource _footSteps;
 
     Vector3 movement;
     Quaternion rotation = Quaternion.identity;
@@ -16,6 +17,7 @@ public class PlayerController : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
+        _footSteps = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -27,6 +29,17 @@ public class PlayerController : MonoBehaviour
 
         bool existsMovement = vertical != 0 || horizontal != 0;
 
+        if (existsMovement)
+        {
+            if (!_footSteps.isPlaying)
+            {
+                _footSteps.Play();
+            }
+        }
+        else
+        {
+            _footSteps.Stop();
+        }
         _animator.SetBool("isWalking", existsMovement);
 
         movement.Set(horizontal, 0f, vertical);
