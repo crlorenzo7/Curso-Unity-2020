@@ -8,7 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Ghost
-  m_Shader: {fileID: 4800000, guid: 1eb9c0266056a2e4cb9ec2719955e6c7, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: f0ad60701777a9f48b8ea55f80d5640c,
+    type: 3}
   m_ShaderKeywords: OUTLINE_FRONT _ALPHABLEND_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -19,6 +20,14 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_19D2B15B:
+        m_Texture: {fileID: 2800000, guid: 852291642c990ad45828caf2d7a11ac6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_2A0CEFFF:
+        m_Texture: {fileID: 2800000, guid: feebd9fe3a61f384286140f9201d038d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Albedo:
         m_Texture: {fileID: 2800000, guid: 80727d0a9bd846443a31616f3c053824, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -107,7 +116,42 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_15909A12_Out_0:
+        m_Texture: {fileID: 2800000, guid: eec5fe2be5cff094cb3f343f7a1ef56d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_2E2C32B8_Out_0:
+        m_Texture: {fileID: 2800000, guid: d792ac6453629de4ebf2861f3b2a1548, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_52348B93_Out_0:
+        m_Texture: {fileID: 2800000, guid: be14171909e301d4c8c926d395216a01, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_671550C4_Out_0:
+        m_Texture: {fileID: 2800000, guid: ffa3bbfb0a2a37740aec32cc4f3ed28c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_8F093748_Out_0:
+        m_Texture: {fileID: 2800000, guid: 757028ca1ffaf9d479c2230087cc1bb0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_9C31058A_Out_0:
+        m_Texture: {fileID: 2800000, guid: ffa3bbfb0a2a37740aec32cc4f3ed28c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_ACDD3152_Out_0:
+        m_Texture: {fileID: 2800000, guid: b2bf2fce6ac5acf41b89f5759488edae, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_115950B1: 0.1
+    - Vector1_125B0006: 1
+    - Vector1_4605B78F: -0.05
+    - Vector1_5D15AE66: 3
+    - Vector1_B7480337: 0
+    - Vector1_D8465641: 2
+    - Vector1_EE7E1C76: 0.005
     - _Alpha: 1
     - _AlphaClip: 0
     - _Blend: 0
@@ -155,6 +199,13 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 0
     m_Colors:
+    - Color_4B38EEAA: {r: 0.3390414, g: 0.5822938, b: 2.662102, a: 0}
+    - Color_66BC1BBC: {r: 1.866066, g: 0, b: 1.816465, a: 0}
+    - Color_AFA94021: {r: 1, g: 0, b: 1, a: 1}
+    - Color_FEF1602B: {r: 0, g: 0.005110434, b: 2.297397, a: 0}
+    - Vector2_3D0A6515: {r: 1, g: 0.5, b: 0, a: 0}
+    - Vector2_84F0462E: {r: 3, g: 10, b: 0, a: 0}
+    - Vector2_FE3BD94D: {r: 1, g: 0.1, b: 0, a: 0}
     - _BorderColor: {r: 1, g: 1, b: 1, a: 1}
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
@@ -166,3 +217,4 @@ Material:
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _color: {r: 1, g: 1, b: 1, a: 0.27450982}
+  m_BuildTextureStacks: []

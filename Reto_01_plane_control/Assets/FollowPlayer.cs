@@ -5,8 +5,8 @@ using UnityEngine;
 public class FollowPlayer : MonoBehaviour
 {
     public GameObject player;
-    public GameObject pov;
-    public Vector3 offset = new Vector3(0, 5, 10);
+    public Vector3 offset = new Vector3(0f, 17f, -15f);
+    public float prevRotation = 0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,12 +16,15 @@ public class FollowPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Vector3 offset = Quaternion.AngleAxis (Input.GetAxis() * turnSpeed, Vector3.up) * offset;
-        //  transform.position = player.position + offset; 
         transform.position = player.transform.position + offset;
+        float yRotation = player.transform.eulerAngles.y - prevRotation;
+        transform.RotateAround(player.transform.position, Vector3.up, yRotation);
         transform.LookAt(player.transform.position);
+        prevRotation = player.transform.eulerAngles.y;
+        // transform.LookAt(player.transform.position);
+        // transform.rota
 
-        //transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0f);
+        // prevPlayerPosition = transform.position;
 
     }
 }

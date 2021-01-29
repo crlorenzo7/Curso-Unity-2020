@@ -10,14 +10,15 @@ public class PlayerController : MonoBehaviour
 
     public float elevationSpeed = 30f;
 
+    public float wingSpeed = 30f;
+
     public float wingsRestorationSpeed = 30f;
 
-    GameObject _plane;
+    public float xRotationRange = 30f;
+    public float zRotationRange = 90f;
 
-    // Start is called before the first frame update
     void Start()
     {
-        _plane = GameObject.Find("PlaneModel");
     }
 
     // Update is called once per frame
@@ -26,55 +27,131 @@ public class PlayerController : MonoBehaviour
         float hInputValue = Input.GetAxis("Horizontal");
         float vInputValue = Input.GetAxis("Vertical");
 
-        Vector3 translation = speed * Time.deltaTime * Vector3.forward;
-        Vector3 horizontalRotation = turnSpeed * hInputValue * Time.deltaTime * Vector3.up;
-        Vector3 wingRotation = wingsRestorationSpeed * hInputValue * Time.deltaTime * Vector3.forward;
         Vector3 verticalRotation = elevationSpeed * vInputValue * Time.deltaTime * Vector3.right;
+        Vector3 horizontalRotation = turnSpeed * hInputValue * Vector3.up * Time.deltaTime;
+        //RotatePlaneWings(-wingSpeed * hInputValue * Time.deltaTime);
 
-        transform.Rotate(horizontalRotation + verticalRotation);
-        Vector3 currentRotation = transform.localRotation.eulerAngles;
-        if (currentRotation.x > 45f && currentRotation.x < 180f)
-        {
-            currentRotation.x = 45f;
-        }
-        if (currentRotation.x < 315 && currentRotation.x > 180)
-        {
-            currentRotation.x = -45f;
-        }
-        transform.localEulerAngles = currentRotation;
+        // if (Mathf.Abs(hInputValue) < 0.9f)
+        // {
+        //     RotatePlaneVertically(elevationSpeed * vInputValue * Time.deltaTime);
+        // }
 
-        RotatePlane(hInputValue);
-        if (Mathf.Approximately(hInputValue, 0) && Mathf.Approximately(vInputValue, 0))
-        {
-            RotateWings(horizontalRotation, hInputValue);
-        }
-
-        transform.Translate(translation);
+        // if (Mathf.Abs(hInputValue) == 0 && transform.eulerAngles.z != 0)
+        // {
+        //     RotateWingsToZero();
+        // }
+        transform.Rotate(horizontalRotation);
+        transform.Rotate(verticalRotation);
+        transform.Translate(speed * Vector3.forward * Time.deltaTime);
 
     }
 
-    private void RotateWings(Vector3 rotation, float inputValue)
+    protected void LateUpdate()
     {
-
-        Quaternion zRotation = Quaternion.Euler(_plane.transform.localEulerAngles.x, _plane.transform.localEulerAngles.y, 0);
-        Quaternion xRotation = Quaternion.Euler(0, transform.localEulerAngles.y, transform.localEulerAngles.z);
-
-        _plane.transform.localRotation = Quaternion.Slerp(_plane.transform.localRotation, zRotation, Time.deltaTime);
-        transform.localRotation = Quaternion.Slerp(transform.localRotation, xRotation, Time.deltaTime);
+        Debug.Log("rotation: " + transform.rotation);
+        Debug.Log("Euler: " + transform.eulerAngles);
+        Debug.Log("next: " + Quaternion.Euler(transform.localEulerAngles.x, transform.localEulerAngles.y, 0f));
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(transform.localEulerAngles.x, transform.localEulerAngles.y, 0f), 180f);
 
     }
 
-    private void RotatePlane(float inputValue)
+    void RotateWingsToZero()
     {
-        float multiplier = 1;
-        if (inputValue > 0)
+        Vector3 currentEulerAngles = transform.eulerAngles;
+
+        float restorationSpeed = wingSpeed;
+        if (transform.eulerAngles.z <= 90f)
         {
-            multiplier = -1;
+            restorationSpeed = -wingSpeed;
         }
-        if (inputValue != 0)
+
+        float zRotation = restorationSpeed * Time.deltaTime;
+        float currentZValue = currentEulerAngles.z + zRotation;
+
+        if (currentZValue < 1f || currentZValue > 359f)
         {
-            Quaternion zRotation = Quaternion.Euler(_plane.transform.localEulerAngles.x, _plane.transform.localEulerAngles.y, 30f * multiplier);
-            _plane.transform.localRotation = Quaternion.Slerp(_plane.transform.localRotation, zRotation, Time.deltaTime);
+            currentEulerAngles.z = 0f;
+            transform.eulerAngles = currentEulerAngles;
         }
+        else
+        {
+
+            transform.Rotate(0f, 0f, zRotation);
+        }
+    }
+
+    void RotatePlaneWings(float zRotation)
+    {
+        Vector3 currentEulerAngles = transform.eulerAngles;
+        float currentZValue = currentEulerAngles.z + zRotation;
+
+        if (currentZValue >= 90f && currentZValue <= 270f)
+        {
+            if (currentZValue > 90 && currentZValue < 100)
+            {
+                currentEulerAngles.z = 90f;
+                currentEulerAngles.y = 0f;
+                transform.eulerAngles = currentEulerAngles;
+            }
+            if (currentZValue > 260f && currentZValue < 270f)
+            {
+                currentEulerAngles.z = 270f;
+                currentEulerAngles.y = 0f;
+                transform.eulerAngles = currentEulerAngles;
+            }
+        }
+        else
+        {
+            transform.Rotate(0f, 0f, zRotation);
+        }
+    }
+
+    void RotatePlaneVertically(float xRotation)
+    {
+        Vector3 currentEulerAngles = transform.localEulerAngles;
+        float currentZValue = currentEulerAngles.x + xRotation;
+
+        if (currentZValue >= 30f && currentZValue <= 330f)
+        {
+            if (currentZValue > 30 && currentZValue < 40)
+            {
+                currentEulerAngles.x = 30f;
+                currentEulerAngles.y = 0f;
+                transform.eulerAngles = currentEulerAngles;
+            }
+            if (currentZValue > 320f && currentZValue < 330f)
+            {
+                currentEulerAngles.x = 330f;
+                currentEulerAngles.y = 0f;
+                transform.eulerAngles = currentEulerAngles;
+            }
+        }
+        else
+        {
+            transform.Rotate(xRotation * transform.right);
+        }
+    }
+
+    bool isAngleOutOfRange(float range, float currentAngle, float rotation, out float angle, float margin = 10f)
+    {
+
+        angle = currentAngle + rotation;
+
+        float upperLimit = 360 - range;
+
+        if (angle >= range && angle <= upperLimit)
+        {
+            if (angle > range && angle < angle + margin)
+            {
+                angle = range;
+                return true;
+            }
+            if (angle > upperLimit - margin && angle < upperLimit)
+            {
+                angle = upperLimit;
+                return true;
+            }
+        }
+        return false;
     }
 }
